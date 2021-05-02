@@ -168,7 +168,7 @@ public:
     }
 
     /**no.27 移除元素
-     * 
+     * 思路：同上
     */
     int removeElement(vector<int>& nums, int val) {
         if (!nums.size()) return 0;
@@ -179,6 +179,21 @@ public:
             }
         }
         return left;
+    }
+
+    /**no.31 下一个排列
+     * 
+    */
+    void nextPermutation(vector<int>& nums) {
+        int right = nums.size()-1, left = right;
+        while (left > 0 && nums[left] <= nums[left-1]) --left;
+        if (left) {
+            while(nums[right] <= nums[left-1]) --right;
+            cout << right << endl;
+            swap(nums[left-1], nums[right]);
+            right = nums.size()-1;
+        }
+        reverse(nums.begin()+left, nums.begin()+right+1);
     }
 
     //--------------------------tools-----------------------------
@@ -234,11 +249,10 @@ public:
 
 int main()
 {
-    vector<int> nums = {0,1,2,2,3,0,4,2};
+    vector<int> nums = {1, 1};
     Solution s;
-    int result = s.removeElement(nums, 2);
+    s.nextPermutation(nums);
     s.printArray(nums);
-    cout << endl << result;
 
     cout << "\n\ncomplete!";
     getchar();

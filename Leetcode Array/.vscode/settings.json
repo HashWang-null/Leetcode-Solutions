@@ -9,6 +9,7 @@
         "xmemory0": "cpp",
         "vector": "cpp",
         "valarray": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "xutility": "cpp"
     }
 }
