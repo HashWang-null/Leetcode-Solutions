@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "charconv": "cpp",
+        "filesystem": "cpp",
+        "functional": "cpp",
+        "random": "cpp",
+        "xlocnum": "cpp",
+        "xloctime": "cpp",
+        "xmemory0": "cpp",
+        "vector": "cpp",
+        "valarray": "cpp"
+    }
+}

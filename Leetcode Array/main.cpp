@@ -95,10 +95,30 @@ public:
     }
 
     /**no.16 最接近的三数之和
-
-    use tools: void quickSort(vector<int>, int);
     */
     int threeSumClosest(vector<int>& nums, int target) {
+        sort(nums.begin(), nums.end());
+        unsigned int left, right;
+        int gap = nums[0] + nums[(nums.size()+1)>>1] + nums[nums.size()-1] - target;
+        if (!gap) return target;
+        for (int i = 0; i < nums.size()-2; i++) {
+            if (i > 0 && nums[i-1] == nums[i]) continue;
+            left = i + 1;
+            right = nums.size()-1;
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum == target) return target;
+                if (abs(sum-target) < abs(gap)) {
+                    gap = sum - target;
+                }
+                if (sum > target) {
+                    while (right > left && nums[--right] == nums[right+1]);
+                } else {
+                    while (left < right && nums[++left] == nums[left-1]);
+                }
+            }
+        }
+        return gap + target;
     }
 
     //--------------------------tools-----------------------------
@@ -108,22 +128,27 @@ public:
         right：终止索引 (注意nums.size()-1)
         ifReverse: 是否反转
     */
-    void quickSort(vector<int> &nums, unsigned int left, unsigned int right) {
-        if (nums.size() <= 1 || left >= right) return;
-        unsigned int i = left+1, j = right;
-        int temp;
-        while (i < j) {
-            while (i <= right && nums[i] <= nums[left]) ++i;
-            while (j >= left && nums[j] > nums[left]) --j;
-            if (i < j) {
-                temp = nums[i], nums[i] = nums[j], nums[j] = temp;
+    void quickSort(vector<int> &nums, int left, int right) {
+        if (left < right) {
+            unsigned int i = left, j = right;
+            int pivot = nums[left];
+            while (i < j) {
+                while (j > i && nums[j] > pivot) --j;
+                if (i < j) {
+                    nums[i] = nums[j];
+                    ++i;
+
+                }
+                while (i < j && nums[i] <= pivot) ++i;
+                if (i < j) {
+                    nums[j] = nums[i];
+                    --j;
+                }
             }
+            nums[i] = pivot;
+            quickSort(nums, left, i-1);     //caution
+            quickSort(nums, i+1, right);    //caution
         }
-        printArray(nums);
-        cout << "left, j-1: " << left << " "<< j-1 << endl;
-        cout << "j, right: " << j << " " << right << endl;
-        quickSort(nums, left, j-1);
-        quickSort(nums, j, right);
     }
 
     /*打印数组*/
@@ -149,13 +174,11 @@ public:
 
 int main()
 {
-    vector<int> nums = {4, 3, 1, 9, 1, 2, 2, 2, 7, 6, 5};
-    //vector<int> nums = {1, 1};
+    vector<int> nums = {-1,2,1,-4};
     Solution s;
-    s.printArray(nums);
-    cout << endl;
-    s.quickSort(nums, 0, nums.size()-1);
-    cout << "result: ";
-    s.printArray(nums);
+    cout << s.threeSumClosest(nums, 1);
+
+    cout << endl << "complete";
+    getchar();
     return 0;
 }
