@@ -155,15 +155,30 @@ public:
      * 原理是不停的把后面不重复的元素移到前面来
     */
     int removeDuplicates(vector<int>& nums) {
-        //return unique(nums.begin(), nums.end()) - nums.begin();
+        return unique(nums.begin(), nums.end()) - nums.begin();
+        // unique原理：
+        // if (!nums.size()) return 0;
+        // unsigned int left = 0, right = 0;
+        // while (++right != nums.size()) {
+        //     if (nums[left] != nums[right]) {
+        //         nums[++left] = nums[right];
+        //     }
+        // }
+        // return left+1;
+    }
+
+    /**no.27 移除元素
+     * 
+    */
+    int removeElement(vector<int>& nums, int val) {
         if (!nums.size()) return 0;
-        unsigned int left = 0, right = 0;
-        while (++right != nums.size()) {
-            if (nums[left] != nums[right]) {
-                nums[++left] = nums[right];
+        unsigned int left = 0;
+        for (unsigned int right = 0; right < nums.size(); ++right) {
+            if (nums[right] != val) {
+                nums[left++] = nums[right];
             }
         }
-        return left+1;
+        return left;
     }
 
     //--------------------------tools-----------------------------
@@ -219,9 +234,9 @@ public:
 
 int main()
 {
-    vector<int> nums = {0,0,1,1,1,2,2,3,3,4};
+    vector<int> nums = {0,1,2,2,3,0,4,2};
     Solution s;
-    int result = s.removeDuplicates(nums);
+    int result = s.removeElement(nums, 2);
     s.printArray(nums);
     cout << endl << result;
 
