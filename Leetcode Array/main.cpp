@@ -94,7 +94,36 @@ public:
         return maxv;
     }
 
+    /**no.15 三数之和
+     * 
+    */
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        if (nums.size() < 3) return {};
+        sort(nums.begin(), nums.end());
+        unsigned int left, right;
+        vector<vector<int>> result;
+        for (int i = 0; i < nums.size()-2; i++) {
+            if (nums[i] > 0) return result;
+            if (i > 0 && nums[i-1] == nums[i]) continue;
+            left = i+1, right = nums.size()-1;
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum > 0) {
+                    --right;
+                } else if (sum < 0){
+                    ++left;
+                } else {
+                    result.push_back({nums[i], nums[left], nums[right]});
+                    while (left < right && nums[--right] == nums[right+1]);
+                    while (left < right && nums[++left] == nums[left-1]);
+                } 
+            }
+        }
+        return result;
+    }
+
     /**no.16 最接近的三数之和
+     * 思路：先排序，然后双指针法
     */
     int threeSumClosest(vector<int>& nums, int target) {
         sort(nums.begin(), nums.end());
@@ -174,11 +203,18 @@ public:
 
 int main()
 {
-    vector<int> nums = {-1,2,1,-4};
+    vector<int> nums = {-1,0,1,2,-1,-4};
     Solution s;
-    cout << s.threeSumClosest(nums, 1);
+    vector<vector<int>> result;
+    result = s.threeSum(nums);
+    for (int i = 0; i < result.size(); i++) {
+        for (int j = 0; j < result[i].size(); j++) {
+            cout << result[i][j] << " ";
+        }
+        cout << endl;
+    }
 
-    cout << endl << "complete";
+    cout << "\n\ncomplete!";
     getchar();
     return 0;
 }
